@@ -30,13 +30,13 @@ Shorty is a simple URL shortening service implemented in Node.js with TypeScript
 4. Compile TypeScript files:
 
     ```bash
-    tsc
+    npm run build
     ```
 
 5. Start the server:
 
     ```bash
-    node src/server.js
+    npm start
     ```
 
 ## Usage
