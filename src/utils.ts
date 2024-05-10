@@ -1,6 +1,16 @@
-import shortid from "shortid";
+import crypto from "crypto";
 
-// Generate a random 10 character code
 export function generateShortCode(): string {
-  return shortid.generate().substring(0, 10);
+  const length = 10;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let shortCode = "";
+
+  for (let i = 0; i < length; i++) {
+    shortCode += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
+
+  return shortCode;
 }

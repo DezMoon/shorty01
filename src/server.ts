@@ -13,6 +13,10 @@ const urlStore: { [key: string]: string } = {};
 app.post("/url", (req, res) => {
   const originalUrl = req.body.url;
 
+  if (!originalUrl) {
+    return res.status(400).send("Missing URL in request body");
+  }
+
   // Generate short code and create shortened URL
   const shortCode = generateShortCode();
   const shortenedUrl = `http://localhost:${port}/${shortCode}`;
@@ -21,7 +25,7 @@ app.post("/url", (req, res) => {
   urlStore[shortCode] = originalUrl;
 
   // Send shortened URL to client
-  res.send({ shortenedURL: shortenedUrl });
+  res.status(201).send({ shortenedURL: shortenedUrl });
 });
 
 // GET endpoint to redirect shortened URL to original URL
@@ -30,12 +34,15 @@ app.get("/:shortCode", (req, res) => {
   const originalUrl = urlStore[shortCode];
 
   if (originalUrl) {
-    res.json({ url: originalUrl });
+    // Redirect to the original URL
+    res.redirect(originalUrl);
   } else {
     res.status(404).send("URL not found");
   }
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+export default server; // Exporting the server instance for testing
